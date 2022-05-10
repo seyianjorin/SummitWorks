@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product List</title>
+</head>
+<body>
+
+<table class="table table-borderless">
+    <thead class="border-bottom font-weight-bold">
+        <tr>
+            <td>Prod Id&ensp;</td>
+            <td>Product&ensp;</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in product_list %}
+            <tr>
+                <td>{{product.id}}&ensp;</td>
+                <td>{{product.name}}&ensp;</td>
+                <td>
+                    <button><a href="{% url 'product_delete' product.id %}">Delete</a></button>
+                </td>
+                <td>
+                    <button><a href="{% url 'product_update' product.id %}">Update</a></button>
+                </td>
+                <td>
+                    <button><a href="{% url 'product_detail' product.id %}">Details</a></button>
+                </td>
+            </tr>
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+<button><a href="http://127.0.0.1:8000/product/newproduct">Add product</a></button> <br>
+
+
+
+</body>
+</html>
