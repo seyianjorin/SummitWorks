@@ -1,18 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Update Product</title>
-</head>
-<body>
-<form method="POST">
+{% extends 'product/base.html' %}
+{% block title %} Update Product {% endblock %}
+{% block content %}
+
+<form method="POST" enctype="multipart/form-data">
 
     {% csrf_token %}
 
     {{ form.as_p }}
 
     <input type="submit" value="Update"> <br>
-    <button><a href="http://127.0.0.1:8000/product/">Display Products</a></button>
+    <button><a href="{% url 'product_list' %}">Display Products</a></button>
 </form>
-</body>
-</html>
+
+{% endblock %}
+
+

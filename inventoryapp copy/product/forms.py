@@ -13,4 +13,5 @@ class ProductForm(forms.ModelForm):
             "price",
             "description",
             "quantity",
+            "image"
         ]

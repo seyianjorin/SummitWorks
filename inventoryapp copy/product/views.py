@@ -1,61 +1,45 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 # Create your views here.
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+
 from .models import Product
 from .forms import ProductForm
 
 
-def list_of_products(request):
-    qs = Product.objects.all()
-    context = {'product_list': qs}
-    return render(request, 'product/product_list.html', context)
+class ProductList(ListView):
+    queryset = Product.objects.all()
+    model = Product
+    templates = 'product/product_list.html'
+    context_object_name = 'product_list'
 
 
-def product_detail(request, id):
-    product = get_object_or_404(Product, pk=id)
-    context = {'product': product}
-    return render(request, 'product/product_detail.html', context)
+class ProductDetail(DetailView):
+    model = Product
+    template_name = 'product/product_detail.html'
+    context_object_name = 'product'
 
 
-def product_from_user(request):
-
-    context = {}
-
-    form = ProductForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return HttpResponseRedirect("/product")
-    context['form'] = form
-    return render(request, "product/product_from_user.html", context)
+class CreateProduct(CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'product/product_from_user.html'
+    context_object_name = 'form'
+    success_url = reverse_lazy('product_list')
 
 
-def update_product(request, id):
-    context = {}
-
-    obj = get_object_or_404(Product, pk = id)
-
-    form = ProductForm(request.POST or None, instance = obj)
-
-    if form.is_valid():
-        form.save()
-        return HttpResponseRedirect("/product")
-
-    context["form"] = form
-
-    return render(request, "product/update_product.html", context)
+class UpdateProduct(UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'product/update_product.html'
+    context_object_name = 'form'
+    success_url = reverse_lazy('product_list')
 
 
-def delete_product(request, id):
+class DeleteProduct(DeleteView):
+    model = Product
+    template_name = 'product/delete_product.html'
+    success_url = reverse_lazy('product_list')
 
-    context = {}
-
-    obj = get_object_or_404(Product, id = id)
-
-    if request.method =="POST":
-
-        obj.delete()
-
-        return HttpResponseRedirect("/product")
-
-    return render(request, "product/delete_product.html", context)
 
