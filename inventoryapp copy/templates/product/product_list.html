@@ -1,0 +1,33 @@
+{% extends 'product/base.html' %}
+{% block title %} Product List Page {% endblock %}
+{% block content %}
+<table class="table table-borderless">
+    <thead class="border-bottom font-weight-bold">
+        <tr>
+            <td>Prod Id&ensp;</td>
+            <td>Product&ensp;</td>
+            <td></td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in product_list %}
+            <tr>
+                <td>{{product.id}}&ensp;</td>
+                <td><a href="{% url 'product_detail' product.id %}">{{product.name}}&ensp;</a></td>
+                <td>
+                    <button><a href="{% url 'product_delete' product.id %}">Delete</a></button>
+                </td>
+                <td>
+                    <button><a href="{% url 'product_update' product.id %}">Update</a></button>
+                </td>
+            </tr>
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+<button><a href="{% url 'product_create' %}">Add product</a></button> <br>
+
+{% endblock %}
